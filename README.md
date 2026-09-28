@@ -1,4 +1,4 @@
-# Anonymous File Sharing Platform
+# VeilDrop
 
 A Django platform for expiring file links, anonymous support requests, and Telegram-assisted delivery.
 
