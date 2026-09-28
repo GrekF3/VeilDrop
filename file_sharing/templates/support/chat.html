@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат с пользователем</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/admin.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="sidebar-sup">
+        <nav class="nav flex-column">
+            <a class="nav-link active" href="{% url 'support_panel' %}">Панель поддержки</a>
+        </nav>
+    </div>
+    
+    <div class="container mt-5 admin-section">
+        <div class="card">
+            <div class="header">
+                <h4>Чат с пользователем: {{ ticket.user.username }}</h4>
+            </div>
+            <div class="card-body">
+                <div id="messages" class="mb-4" style="height: 400px; overflow-y: scroll;">
+                    {% for message in chat_messages %}
+                        <div class="message {% if message.user == ticket.user %}text-left{% else %}text-right{% endif %}">
+                            <strong>{{ message.user.username }}:</strong> {{ message.content }}
+                            <small class="text-muted">{{ message.timestamp|date:"H:i" }}</small>
+                        </div>
+                    {% empty %}
+                        <div class="text-center">Нет сообщений в чате.</div>
+                    {% endfor %}
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input id="chat-message-input" type="text" name="message" class="form-control" placeholder="Введите ваше сообщение" required>
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Отправить</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer class="footer text-center mt-5">
+        <p>&copy; 2024 Поддержка</p>
+    </footer>
+    <script>
+        // Инициализация WebSocket
+        const ticket = {
+            ticket_id: "{{ ticket.ticket_id }}",
+            user: "{{ ticket.user.username }}",
+            operator: "{{ ticket.assigned_user.username }}"
+        };
+        
+        const socket = new WebSocket(`wss://anonloader.io/ws/support/${ticket.ticket_id}/`);
+        
+        socket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+        
+            // Обработка текстовых сообщений
+            if (data.type === 'message') {
+                var message = data.message.message;
+
+        
+                // Создаем новый элемент для сообщения
+                var messageElement = document.createElement('div');
+                messageElement.className = 'message text-left'; // Или 'text-right' в зависимости от пользователя
+                messageElement.innerHTML = `<strong>${ticket.user}:</strong> ${message} <small class="text-muted">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small>`;
+        
+                // Добавляем новое сообщение в блок сообщений
+                document.getElementById('messages').appendChild(messageElement);
+        
+            // Обработка изображений
+            } else if (data.type === 'image') {
+                var imageData = data.image_data;
+        
+                // Создаем новый элемент для изображения
+                var imageElement = document.createElement('div');
+                imageElement.className = 'message text-left'; // Или 'text-right' в зависимости от пользователя
+                imageElement.innerHTML = `<img src="data:image/jpeg;base64,${imageData}" alt="Изображение пользователя" style="max-width: 100%; height: auto;"/>`;
+        
+                // Добавляем изображение в блок сообщений
+                document.getElementById('messages').appendChild(imageElement);
+            }
+        
+            // Прокручиваем блок сообщений вниз
+            var messagesContainer = document.getElementById('messages');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        };
+    
+        // Обработчик отправки формы
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Предотвращаем перезагрузку страницы
+        
+            const messageInput = document.getElementById('chat-message-input');
+            const messageContent = messageInput.value;
+        
+            // Отправляем AJAX-запрос на сервер
+            fetch('{% url "ticket_chat" ticket.ticket_id %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}' // Не забудьте передать CSRF токен
+                },
+                body: JSON.stringify({'message': messageContent})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Если сообщение успешно отправлено, очищаем поле ввода
+                    messageInput.value = '';
+        
+                    // Отображаем отправленное сообщение в чате
+                    var messageElement = document.createElement('div');
+                    messageElement.className = 'message text-right'; // Можно изменить на text-left в зависимости от пользователя
+                    messageElement.innerHTML = `<strong>${ticket.operator}:</strong> ${messageContent} <small class="text-muted">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small>`;
+                    document.getElementById('messages').appendChild(messageElement);
+        
+                    // Прокручиваем блок сообщений вниз
+                    var messagesContainer = document.getElementById('messages');
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

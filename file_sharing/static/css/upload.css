@@ -1,0 +1,51 @@
+body {
+    background-color: #1e1e1e;
+    color: #f5f5f5;
+    font-family: "Chocolate Classical Sans", sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background-color: #2b2b2b;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .5);
+    max-width: 500px;
+    width: 100%; /* Обеспечиваем адаптивность контейнера */
+}
+
+h1 {
+    color: #3ca31b;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+strong {
+    color: #c296ff;
+}
+
+a {
+    color: #2744b5;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Добавляем стили для изображения QR-кода */
+.qr-code {
+    max-width: 100%; /* Ограничиваем ширину изображения 100% ширины контейнера */
+    height: auto; /* Сохраняем пропорции изображения */
+    margin-top: 10px; /* Отступ сверху для изображения */
+    border-radius: 10px; /* Скругляем углы изображения */
+}

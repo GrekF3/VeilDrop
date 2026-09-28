@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Chocolate+Classical+Sans&family=Cuprum:ital,wght@0,400..700;1,400..700&family=M+PLUS+1p:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/upload.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "favicon/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "favicon/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "favicon/favicon-16x16.png" %}">
+    <link rel="icon" href="{% static "favicon/favicon.ico" %}" type="image/x-icon">
+    <link rel="manifest" href="{% static "favicon/site.webmanifest" %}">
+    <link rel="mask-icon" href="{% static "favicon/safari-pinned-tab.svg" %}" color="#5bbad5">
+    <meta name="apple-mobile-web-app-title" content="AnonLoader">
+    <meta name="application-name" content="AnonLoader">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>AnonLoader | Успешная загрузка</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Файл успешно загружен!</h1>
+        <p>Уникальный ключ: <strong>{{ unique_key }}</strong></p>
+        <p>Ссылка на Ваш файл: <strong><a href="{{ link }}">{{ link }}</a></strong></p>
+        <p>Сохраните этот ключ, он понадобятся для доступа к файлу.</p>
+        {% if file_expiration == 'one_time' %}
+            <p>Срок жизни файла: <strong>Одноразовая ссылка</strong></p>
+            <p>Срок жизни ссылки: <strong>7 дней</strong></p>
+        {% else %}
+            <p>Срок жизни файла: <strong>{{ file_expiration }}</strong></p>
+        {% endif %}
+        <img src="{{ qr_code_url }}" alt="QR Code" class="qr-code">
+    </div>
+</body>
+<script src="{% static 'js/main.js' %}"></script>
+</html>

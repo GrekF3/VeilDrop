@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chocolate+Classical+Sans&family=Cuprum:ital,wght@0,400..700;1,400..700&family=M+PLUS+1p:wght@100;300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "favicon/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "favicon/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "favicon/favicon-16x16.png" %}">
+    <link rel="icon" href="{% static "favicon/favicon.ico" %}" type="image/x-icon">
+    <link rel="manifest" href="{% static "favicon/site.webmanifest" %}">
+    <link rel="mask-icon" href="{% static "favicon/safari-pinned-tab.svg" %}" color="#5bbad5">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <meta name="apple-mobile-web-app-title" content="AnonLoader">
+    <meta name="application-name" content="AnonLoader">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <title>Страница не найдена - AnonLoader</title>
+</head>
+
+<body>
+    <div class="container main-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 col-md-9 col-sm-12 mb-4 main-content">
+                <div class="container-wrapper">
+                    <div class="container-base">
+                        <h1>Ошибка 404</h1>
+                        <p>Упс! Страница, которую вы ищете, не найдена.</p>
+                        <p>Возможно, она была удалена, изменила адрес или никогда не существовала.</p>
+                        <h2>Что делать дальше?</h2>
+                        <ul>
+                            <li><a href="{% url 'home' %}">Вернуться на главную страницу</a></li>
+                            <li><a href="https://t.me/example" target="_blank">Связаться с поддержкой</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

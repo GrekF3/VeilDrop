@@ -1,0 +1,89 @@
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile  
+    volumes:
+      - static_volume:/home/app/web/staticfiles
+      - media_volume:/home/app/web/media
+      - .:/app  # Монтирование текущей директории
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
+      - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      - db
+      - redis
+    command: >
+      sh -c "python manage.py migrate && python manage.py collectstatic --noinput && daphne -b 0.0.0.0 -p 8000 file_sharing.asgi:application"
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  anon_bot:
+    build: .
+    command: python manage.py anon
+    depends_on:
+      - db
+      - web
+      - telegram-bot-api
+    volumes:
+      - .:/app
+      - telegram-bot-api-data:/var/lib/telegram-bot-api  # Монтируем тот же volume
+    restart: always
+    environment:
+      - ANON_BOT_KEY=${ANON_TOKEN}
+
+  redis:
+    image: "redis:alpine"
+
+  celery:
+    build: .
+    command: celery -A file_sharing worker -l info
+    volumes:
+      - .:/app
+      - media_volume:/home/app/web/media
+    depends_on:
+      - redis
+      - web
+    restart: always
+
+  support_bot:
+    build: .
+    command: python manage.py support
+    depends_on:
+      - db
+      - web
+    volumes:
+      - .:/app
+    restart: always
+    environment:
+      - ANON_BOT_KEY=${ANON_SUPPORT_TOKEN}
+
+  telegram-bot-api:
+    image: aiogram/telegram-bot-api:latest
+    environment:
+      TELEGRAM_API_ID: "${TELEGRAM_API_ID}"
+      TELEGRAM_API_HASH: "${TELEGRAM_API_HASH}"
+      TELEGRAM_LOCAL: "1"
+      TELEGRAM_MAX_CONNECTIONS: "100"  # Установите в зависимости от ожидаемой нагрузки
+      TELEGRAM_VERBOSITY: "1"  # Для повышения уровня логирования
+    volumes:
+      - telegram-bot-api-data:/var/lib/telegram-bot-api
+    ports:
+      - "8081:8081"  # Порт для доступа к Bot API
+
+volumes:
+  media_volume:
+  static_volume:
+  postgres_data:
+  telegram-bot-api-data:

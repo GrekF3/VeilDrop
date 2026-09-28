@@ -1,0 +1,12 @@
+<li class="nav-item">
+    <a class="nav-link {% if section == 'broadcast' %}active{% endif %}" href="{% url 'broadcast' %}"><i class="fas fa-paper-plane"></i> Сделать рассылку</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if section == 'manage_users' %}active{% endif %}" href="{% url 'manage_users' %}"><i class="fas fa-users"></i> Управление пользователями</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if section == 'statistics' %}active{% endif %}" href="{% url 'statistics' %}"><i class="fas fa-chart-line"></i> Статистика</a>
+</li>
+<li class="nav-item">
+    <a class="nav-link {% if section == 'support_panel' %}active{% endif %}" href="{% url 'support_panel' %}"><i class="fas fa-support"></i> Панель поддержки</a>
+</li>

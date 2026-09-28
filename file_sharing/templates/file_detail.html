@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "favicon/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "favicon/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "favicon/favicon-16x16.png" %}">
+    <link rel="icon" href="{% static "favicon/favicon.ico" %}" type="image/x-icon">
+    <link rel="manifest" href="{% static "favicon/site.webmanifest" %}">
+    <link rel="mask-icon" href="{% static "favicon/safari-pinned-tab.svg" %}" color="#5bbad5">
+
+    <meta name="apple-mobile-web-app-title" content="AnonLoader">
+    <meta name="application-name" content="AnonLoader">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link href="https://fonts.googleapis.com/css2?family=Chocolate+Classical+Sans&family=Cuprum:ital,wght@0,400..700;1,400..700&family=M+PLUS+1p:wght@100;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+
+    <title>AnonLoader | Файл</title>
+</head>
+<body>
+    <div id="overlay" style="display: flex">
+        <div class="loader-dots">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <p id="loadStatusText">Загрузка файла...</p>
+    </div>
+    <div class="container-wrapper">
+        <div class="container-base">
+            <h1 class="mb-3">Ваш файл готов</h1>
+            <p>Ключ доступа: <strong>{{ file.unique_key }}</strong></p>
+            <p>Размер файла: {{ file_size }}</p>
+            <p>Расширение файла: {{ file.mime_type }}</p>    
+            {% if file.expires_at %}
+                <p>Дата загрузки: {{ file.created_at|date:"Y-m-d H:i:s" }}</p>
+                <p>Файл будет удален: <strong>{{ file.expires_at|date:"Y-m-d H:i:s" }} UTC</strong></p>
+            {% else %}
+                <h2><strong> Файл доступен ОДИН раз. Не перезагружайте страницу</strong></h2>
+            {% endif %}
+
+            {% if file.type == 'image' or file.type == 'image_text' %}
+                <img src="data:{{ file.mime_type }};base64,{{ image_data }}" alt="Изображение" class="file-preview">
+                {% if file.type == 'image_text' %}
+                    <p>{{ file.text }}</p>
+                {% endif %}
+                <a href="{% url 'file_download' file.unique_key %}" class="btn btn-primary" download>Скачать файл</a>
+    
+            {% elif file.type == 'video' %}
+                <video controls controlslist="nodownload" class="file-preview">
+                    <source src="data:{{ file.mime_type }};base64,{{ video_data }}" type="{{ file.mime_type }}">
+                    Ваш браузер не поддерживает видео.
+                </video>
+                <a href="{% url 'file_download' file.unique_key %}" class="btn btn-primary" download>Скачать видео</a>
+
+                
+            {% elif file.type == 'audio' %}
+                <audio controls class="file-preview-audio">
+                    <source src="data:{{ file.mime_type }};base64,{{ audio_data }}" type="{{ file.mime_type }}">
+                    Ваш браузер не поддерживает аудио.
+                </audio>
+                <a href="{% url 'file_download' file.unique_key %}" class="btn btn-primary" download>Скачать аудио</a>
+    
+            {% elif file.type == 'file' %}
+                <p>Это обычный файл. Вы можете скачать его ниже:</p>
+                <a href="{% url 'file_download' file.unique_key %}" class="btn btn-primary" download>Скачать файл</a>
+    
+            {% else %}
+                <p>Неизвестный тип файла.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+<script src="{% static 'js/d-loader.js' %}"></script>
+</html>

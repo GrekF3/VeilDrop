@@ -1,0 +1,35 @@
+/.venv
+/anon_bot/users.db
+/anon_bot/config.py
+/file_sharing/db.sqlite3
+anon_support_bot/database/support_users.db
+Доделать в боте.txt
+file_sharing/.env
+file_sharing/nginx/logs/access.log
+file_sharing/nginx/logs/error.log
+# Local configuration and runtime data
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+/env/
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite
+*.sqlite3
+*.log
+media/
+uploads/
+
+# Frontend build state
+node_modules/
+.next/
+coverage/
+
+# Editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

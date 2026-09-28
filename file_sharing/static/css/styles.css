@@ -1,0 +1,372 @@
+:root {
+    --background-color: #121212;
+    --container-background: #1e1e1e;
+    --text-color: #ffffff;
+    --header-color: #a33131;
+    --subheader-color: #c296ff;
+    --paragraph-color: #e0e0e0;
+    --button-background: #4707a1;
+    --button-hover: #4f09b1;
+    --alert-success: #4caf50;
+    --alert-danger: #f44336;
+    --input-background: #282828;
+    --border-color: #6200ea;
+    --notice-border-color: #6200ea
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: "Chocolate Classical Sans", sans-serif;
+    margin: 0;
+    padding: 0
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin: 0 auto
+}
+
+#banner,
+.btn {
+    margin-top: 20px
+}
+
+.container {
+    max-width: 800px;
+    padding: 20px;
+    background-color: var(--container-background);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .5)
+}
+
+.container h1 {
+    font-size: 26px;
+    margin-bottom: 15px;
+    color: var(--subheader-color)
+}
+
+.container h2 {
+    font-size: 24px;
+    margin-top: 10px;
+    color: var(--header-color)
+}
+
+.container p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin: 10px 0;
+    color: var(--paragraph-color)
+}
+
+.alert-danger,
+.alert-success,
+.btn {
+    color: var(--text-color)
+}
+
+.btn {
+    background-color: var(--button-background);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color .3s, transform .2s;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    text-decoration: none;
+    box-sizing: border-box
+}
+
+.alert,
+.status-message,
+label {
+    margin-top: 10px
+}
+
+.btn:hover {
+    background-color: var(--button-hover);
+    transform: scale(1.02)
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 4px
+}
+
+.alert-success {
+    background-color: var(--alert-success)
+}
+
+.alert-danger {
+    background-color: var(--alert-danger)
+}
+
+.select-lifetime,
+input[type=file],
+input[type=password],
+input[type=text] {
+    background-color: var(--input-background);
+    color: var(--text-color);
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box
+}
+
+.select-lifetime:focus,
+input[type=file]:focus,
+input[type=password]:focus,
+input[type=text]:focus {
+    border-color: var(--button-hover);
+    outline: 0
+}
+
+label {
+    display: block
+}
+
+#banner,
+form {
+    display: flex
+}
+
+form {
+    flex-direction: column
+}
+
+.mt-5 {
+    margin-top: 40px
+}
+
+.notice {
+    color: #333;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    font-size: 14px;
+    line-height: 1.4;
+    border: 2px solid var(--notice-border-color)
+}
+
+.ad-block,
+.contact-block {
+    width: 25%;
+    background-color: var(--container-background);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .5);
+    padding: 20px
+}
+
+.btn:focus,
+.select-lifetime:focus,
+input:focus {
+    outline: 2px solid var(--button-hover);
+    outline-offset: 2px
+}
+
+.ad-block {
+    margin-right: 20px
+}
+
+.contact-block {
+    margin-left: 20px
+}
+
+.ad-block h2,
+.contact-block h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: var(--header-color)
+}
+
+.main-container {
+    background-color: var(--background-color);
+    box-shadow: none;
+    max-width: 1200px
+}
+
+ul.list-unstyled li {
+    margin-bottom: 10px
+}
+
+ul.list-unstyled li a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 18px
+}
+
+ul.list-unstyled li a:hover {
+    color: #0056b3
+}
+
+ul.list-unstyled li i {
+    margin-right: 8px;
+    font-size: 20px
+}
+
+#banner {
+    flex-direction: column;
+    gap: 20px
+}
+
+@media (min-width:992px) {
+    #banner {
+        flex-direction: row
+    }
+}
+
+#banner img {
+    width: 100%;
+    height: auto;
+    object-fit: cover
+}
+
+.alert {
+    border: none
+}
+
+.container-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px
+}
+
+.container-base {
+    max-width: 650px;
+    width: 100%;
+    padding: 20px;
+    background-color: var(--container-background);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .1)
+}
+
+.container-base h2 {
+    color: #a33131
+}
+
+.file-preview {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0
+}
+
+@media (max-width:600px) {
+    .container-base {
+        padding: 15px
+    }
+
+    .container-wrapper {
+        padding: 10px
+    }
+}
+
+.file-preview-audio {
+    display: block;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, .1)
+}
+
+.loading-indicator {
+    justify-content: center;
+    align-items: center
+}
+
+.loader {
+    height: 22px;
+    border-radius: 20px;
+    color: var(--border-color);
+    border: 2px solid;
+    position: relative
+}
+
+.loader::before {
+    content: "";
+    position: absolute;
+    margin: 2px;
+    inset: 0 100% 0 0;
+    border-radius: inherit;
+    background: currentColor;
+    animation: 2s infinite l6
+}
+
+@keyframes l6 {
+    100% {
+        inset: 0
+    }
+}
+
+.btn:disabled {
+    background-color: #555; 
+    cursor: not-allowed; 
+    opacity: 0.6; 
+    transform: none; 
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loader-dots {
+    display: flex;
+    gap: 10px;
+}
+
+.loader-dots div {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #a64ca6, #a88beb);
+    animation: bounce 1.2s infinite ease-in-out;
+}
+
+.loader-dots div:nth-child(1) {
+    animation-delay: -0.4s;
+}
+
+.loader-dots div:nth-child(2) {
+    animation-delay: -0.2s;
+}
+
+.loader-dots div:nth-child(3) {
+    animation-delay: 0s;
+}
+
+@keyframes bounce {
+    0%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+}
+
+#uploadStatusText {
+    margin-top: 20px;
+    color: white;
+    font-size: 18px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1s ease;
+}
